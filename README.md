@@ -186,7 +186,7 @@ First we incorporate a scheduler in the training function. Then we train the mod
 - Script: plain_ResNet_training.py
 
 ## Results
-The results of the segmentation task jupyter notebook will be stored in the results/ directory as a pdf.
+The results of the task can be viewed in the jupyter notebook, in the notebooks folder. 
 
 
 ## Acknowledgments
