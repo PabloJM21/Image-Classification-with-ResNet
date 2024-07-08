@@ -1,7 +1,7 @@
-# Segmentation with U-Net
+# Image Classification with ResNet
 
-The goal of this project is to compare the performance of different models on the Image Classification task, trained on the CIFAR-10 dataset. These models are a MLP, a 1-layer CNN and a ResNet. 
-
+The goal of this project is to compare the performance of different models on the Image Classification task, trained on the CIFAR-10 dataset. 
+These are mainly convolutional neural networks (CNNs) and residual neural networks (ResNets)
 To understand the background of this exercise you can:
 
 Read the ResNet publication: https://arxiv.org/abs/1512.03385
@@ -21,42 +21,45 @@ Note that we will implement the same ideas as in these papers, but will deviate 
 - [Running the Notebook](#running-the-notebook)
 - [Project Details](#project-details)
   - [Importing libraries](#importing-libraries)
-  - [Data Exploration](#data-exploration)
-  - [Implement PyTorch Dataset](#implement-pytorch-dataset)
-  - [Implement the U-Net](#implement-the-u-net)
-  - [Training](#training)
-  - [Evaluation](#evaluation)
-  - [Training with Boundary Channel](#training-with-boundary-channel)
-  - [Training with Dice Loss](#training-with-dice-loss)
+  - [Loading Data](#loading-data)
+  - [1_layer_CNN](#1-layer-CNN)
+  - [1_layer_CNN_training](#1-layer-CNN-training)
+  - [4_layer_CNN](#4-layer-CNN)
+  - [4_layer_CNN_training](#4-layer-CNN-training)
+  - [ResNet](#ResNet)
+  - [ResNet_training](#ResNet-training)
+  - [plain_ResNet](#plain-ResNet)
+  - [plain_ResNet_training](#plain-ResNet-training)
+  - [ResNet_training_scheduler](#ResNet-training-scheduler)
 - [Results](#results)
 - [Acknowledgments](#acknowledgments)
 
 ## Project Overview
 
-In this project, we will implement the U-Net architecture for two main tasks: segmentation and denoising. The primary focus is on segmenting nuclei in fluorescence microscopy images.
+In this project, we will implement three different architectures for the image classification task. 
+More specifically two CNNs consisting of 1 and 4 layers, and a ResNet. In the last part of the project we will also test how the ResNet responds to learning rate scheduling. 
 
 ## Directory Structure
 
 ```plaintext
-Segmentation-Denoising-UNet/
+Image-Classification-with-ResNet/
 │
 ├── README.md
 ├── .gitignore
 ├── notebooks/
-│   └── Segmentation_Denoising_UNet.ipynb
+│   └── Image_Classification_with_ResNet.ipynb
 ├── src/
-│   ├── __init__.py
-│   ├── data_exploration.py
-│   ├── dataset.py
-│   ├── unet_model.py
-│   ├── training.py
-│   ├── evaluation.py
-│   ├── train_with_boundary.py
-│   ├── train_with_dice_loss.py
-├── data/
-│   ├── dsb2018/
-│       ├── train/
-│       ├── test/
+│   ├── import_libraries.py
+│   ├── load_data.py
+│   ├── 1_layer_CNN.py
+│   ├── 1_layer_CNN_training.py
+│   ├── 4_layer_CNN.py
+│   ├── 4_layer_CNN_training.py
+│   ├── ResNet.py
+│   ├── ResNet_training.py
+│   ├── plain_ResNet.py
+│   ├── plain_ResNet_training.py
+│   ├── ResNet_training_scheduler.py
 └── scripts/
     └── download_data.py
 ```
@@ -73,16 +76,16 @@ Segmentation-Denoising-UNet/
 First, clone the repository to your local machine:
 
 ```sh
-git clone https://github.com/yourusername/Segmentation-UNet.git
-cd Segmentation-UNet
+git clone https://github.com/PabloJM21/Image-Classification-with-ResNet.git
+cd Image-Classification-with-ResNet
 ```
 ## Downloading the Data
 
 To keep the repository lightweight, the data is not included. You can download the data by running the provided script.
 
 ```sh
-chmod +x scripts/download_data.sh
-./scripts/download_data.sh
+pip install requests
+python download_data.py
 
 ```
 
@@ -95,55 +98,91 @@ pip install -r requirements.txt
 ```
 
 ## Running the Notebook
+
 After downloading the data, you can start the Jupyter notebook:
 
 
 
 ```sh
-jupyter notebook notebooks/Segmentation_UNet.ipynb
+jupyter notebook notebooks/Image_Classification_with_ResNet.ipynb
 ```
 
 ## Project Details
+[Loading Data](#loading-data)
+  - [1_layer_CNN](#1-layer-CNN)
+  - [1_layer_CNN_training](#1-layer-CNN-training)
+  - [4_layer_CNN](#4-layer-CNN)
+  - [4_layer_CNN_training](#4-layer-CNN-training)
+  - [ResNet](#ResNet)
+  - [ResNet_training](#ResNet-training)
+  - [plain_ResNet](#plain-ResNet)
+  - [plain_ResNet_training](#plain-ResNet-training)
+  - [ResNet_training_scheduler](#ResNet-training-scheduler)
 
 ### Importing libraries
 First of all we import all required python libraries for completing the task.
 
 - Script: import_libraries.py
 
-### Data Exploration
-In this step, we explore the dataset to understand its structure and visualize some examples. This is done in the data_exploration.py script.
+### Loading Data
 
-- Script: data_exploration.py
+In this step, we will load the data from the dataset. 
 
-### Implement PyTorch Dataset
-We implement a custom PyTorch dataset to handle data loading and preprocessing. This implementation can be found in the dataset.py script.
+- Script: load_data.py
 
-- Script: dataset.py
+### 1_layer_CNN
 
-### Implement the U-Net
-We implement the U-Net architecture as described in Ronneberger et al. The code for this is in the unet_model.py script.
+We define a 1-layer convolutional neural network
 
-- Script: unet_model.py
+- Script: 1_layer_CNN.py
 
-### Training
-We define the training functions and train the model, plotting the results of loss and metrics. The training code is in the training.py script.
+### 1_layer_CNN_training
 
-- Script: training.py
+We define the training functions and train the model, plotting the results of loss and metrics. 
 
-### Evaluation
-We evaluate the model on the test data to assess its performance. This evaluation is done in the evaluation.py script.
+- Script: 1_layer_CNN_training.py
 
-- Script: evaluation.py
+### 4_layer_CNN
 
-### Training with Boundary Channel
-To avoid merges of touching nuclei, we add a boundary channel to the learning objective and retrain the model. This process is handled in the train_with_boundary.py script.
+We define a 4-layer convolutional neural network
 
-- Script: train_with_boundary.py
+- Script: 4_layer_CNN.py
 
-### Training with Dice Loss
-For robustness against class imbalance, we will use the Dice coefficient as loss
+### 4_layer_CNN_training
 
-- Script: train_with_dice_loss.py
+We define the training functions and train the model, plotting the results of loss and metrics. 
+
+- Script: 4_layer_CNN_training.py
+
+### ResNet
+
+We define a residual neural network
+
+- Script: Resnet.py
+
+### ResNet_training
+
+We define the training functions and train the model, plotting the results of loss and metrics. 
+
+- Script: ResNet_training.py
+
+### plain_ResNet
+
+We define a plain residual neural network (that is, with residual connections disabled)
+
+- Script: plain_Resnet.py
+
+### plain_ResNet_training
+
+We define the training functions and train the model, plotting the results of loss and metrics. 
+
+- Script: plain_ResNet_training.py
+
+### ResNet_training_scheduler
+
+First we incorporate a scheduler in the training function. Then we train the model with different parameter values, plotting the results of loss and metrics. 
+
+- Script: plain_ResNet_training.py
 
 ## Results
 The results of the segmentation task jupyter notebook will be stored in the results/ directory as a pdf.
