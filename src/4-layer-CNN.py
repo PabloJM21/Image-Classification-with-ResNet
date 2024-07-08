@@ -47,3 +47,9 @@ class DeepCNN(nn.Module):
         x = self.conv_layers(x)
         x = self.fc_layers(x)
         return x
+
+
+
+model2 = DeepCNN()
+model2.to(device)
+summary(model2, (3, 32, 32))
