@@ -3,9 +3,7 @@
 The goal of this project is to compare the performance of different models on the Image Classification task, trained on the CIFAR-10 dataset. 
 These are mainly convolutional neural networks (CNNs) and residual neural networks (ResNets)
 
-To understand the background of this exercise you can:
-
-Read the ResNet publication: https://arxiv.org/abs/1512.03385
+To understand the background of this exercise you can read the ResNet publication: https://arxiv.org/abs/1512.03385
 
 
 
