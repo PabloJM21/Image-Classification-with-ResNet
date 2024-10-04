@@ -8,7 +8,6 @@ To understand the background of this exercise you can:
 Read the ResNet publication: https://arxiv.org/abs/1512.03385
 
 
-Note that we will implement the same ideas as in these papers, but will deviate from the implementation details and conduct different and fewer experiments.
 
 ## Table of Contents
 
